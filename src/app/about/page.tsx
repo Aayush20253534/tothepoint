@@ -8,7 +8,7 @@ import { AboutCta } from "@/components/about/about-cta";
 import { ActionLink } from "@/components/ui/action-link";
 import { Container } from "@/components/ui/container";
 import { Icon } from "@/components/ui/icons";
-import { aboutReasons, aboutValues } from "@/config/about";
+import { aboutValues } from "@/config/about";
 import { siteConfig } from "@/config/site";
 import "./about-hero.css";
 
@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   alternates: { canonical: canonicalPath("/about") },
   title: "About Hariom Shrivastava",
   description:
-    "Get to know Tothepoint Astrology and Hariom Shrivastava, explore our traditional astrology consultation approach and connect directly through WhatsApp.",
+    "Get to know SmartJyotishi and Hariom Shrivastava, explore our traditional astrology consultation approach and connect directly through WhatsApp.",
   openGraph: {
-    title: "About Hariom Shrivastava | Tothepoint Astrology",
+    title: "About Hariom Shrivastava | SmartJyotishi",
     description:
       "Learn about our personal approach to traditional astrology and how to arrange a consultation.",
     type: "website",
@@ -56,14 +56,11 @@ function AboutHero() {
             About <span className="block text-gold-light">Hariom Shrivastava</span>
           </h1>
           <h2 className="about-photo-hero-subtitle mt-5 font-display italic leading-snug text-cream">
-            Astrology with Purpose, Guidance for a Better Tomorrow.
+            Meet the astrologer behind the consultations.
           </h2>
           <div aria-hidden="true" className="about-photo-hero-rule mt-5" />
           <p className="page-hero-lead about-photo-hero-lead mt-5 max-w-[540px] text-cream/90">
-            At {siteConfig.name}, the aim is to make traditional Vedic astrology
-            clear, practical and approachable for today&apos;s questions.
-            Explore themes of relationships, career and personal direction
-            with {siteConfig.astrologer}.
+            Learn about {siteConfig.astrologer}, the traditional perspectives behind his consultations, and the principles that guide personal discussions.
           </p>
           <div className="page-hero-actions about-photo-hero-actions mt-7 flex flex-wrap gap-3">
             <WhatsAppBookingLink icon="message">Book a Consultation</WhatsAppBookingLink>
@@ -108,7 +105,7 @@ function OurStory() {
           <p className="eyebrow">My Journey</p>
           <h2 id="story-heading" className="mt-3 font-display text-3xl leading-tight text-cream sm:text-5xl">From Curiosity to a Life of Astrology</h2>
           <p className="mt-5 text-[15px] leading-8 text-cream/75">My interest in astrology is rooted in the questions people ask about life, relationships and the decisions that shape their future. Traditional Vedic perspectives offer a way to reflect on those questions with care.</p>
-          <p className="mt-4 text-[15px] leading-8 text-cream/75">Through Tothepoint Astrology, I aim to explain these ideas in an accessible way, with personal conversations and practical understanding at the centre of every consultation.</p>
+          <p className="mt-4 text-[15px] leading-8 text-cream/75">Through SmartJyotishi, I aim to explain these ideas in an accessible way, with personal conversations and practical understanding at the centre of every consultation.</p>
           <div className="mt-7 grid grid-cols-3 gap-3">
             {[
               ["Vedic", "Traditional knowledge"],
@@ -121,28 +118,6 @@ function OurStory() {
               </div>
             ))}
           </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-function Reasons() {
-  return (
-    <section aria-labelledby="reasons-heading" className="bg-cream py-14 text-navy sm:py-20">
-      <Container>
-        <div className="mx-auto mb-9 max-w-3xl text-center">
-          <h2 id="reasons-heading" className="font-display text-3xl leading-tight sm:text-4xl">Why Choose Tothepoint Astrology?</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#514b42]">Traditional Vedic perspectives presented with a clear, practical and personal approach.</p>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {aboutReasons.map((reason) => (
-            <article key={reason.title} className="flex flex-col items-center rounded-xl border border-[#e6d9c7] bg-[#fffaf2] px-5 py-7 text-center shadow-[0_8px_25px_rgba(72,42,15,.06)]">
-              <Icon name={reason.icon} size={35} className="text-[#a77734]" />
-              <h3 className="mt-4 font-display text-lg font-semibold">{reason.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-[#514b42]">{reason.description}</p>
-            </article>
-          ))}
         </div>
       </Container>
     </section>
@@ -214,7 +189,6 @@ export default function AboutPage() {
       <AboutHero />
       <ValuesStrip />
       <OurStory />
-      <Reasons />
       <ConsultationApproach />
       <Expertise />
       <AboutCta />
