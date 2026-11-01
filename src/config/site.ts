@@ -1,6 +1,6 @@
 /** Only business details explicitly confirmed by the client are stored here. */
 export const siteConfig = {
-  name: "Tothepoint Astrology",
+  name: "SmartJyotishi",
   astrologer: "Hariom Shrivastava",
   tagline: "Guidance • Clarity • Better Tomorrow",
   whatsappNumber: "917007962637",
