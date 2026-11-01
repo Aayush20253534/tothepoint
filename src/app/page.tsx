@@ -6,38 +6,23 @@ import { WhatsAppBookingLink } from "@/components/booking/whatsapp-booking-link"
 import { AstrologerVisual } from "@/components/about/astrologer-visual";
 import { ActionLink } from "@/components/ui/action-link";
 import { Container } from "@/components/ui/container";
-import { Icon, type IconName } from "@/components/ui/icons";
+import { Icon } from "@/components/ui/icons";
 import { ServiceGlyph } from "@/components/home/service-glyph";
-import { consultationSteps } from "@/config/about";
 import { servicePreviews } from "@/config/home";
 import { siteConfig } from "@/config/site";
 import "./homepage.css";
 
 export const metadata: Metadata = {
   alternates: { canonical: canonicalPath("/") },
-  title: "Tothepoint Astrology | Hariom Shrivastava",
+  title: "SmartJyotishi | Vedic Astrology Consultations",
   description:
-    "Explore Tothepoint Astrology with Hariom Shrivastava. Learn about traditional Vedic astrology, six consultation areas and direct WhatsApp enquiries.",
+    "Explore SmartJyotishi consultations for Kundli, relationships, career, numerology, Vastu and Muhurat with Hariom Shrivastava.",
   openGraph: {
-    title: "Tothepoint Astrology | Guidance, Clarity, Better Tomorrow",
-    description: "Explore the approach, consultation services and traditional perspectives at Tothepoint Astrology.",
+    title: "SmartJyotishi | Vedic Astrology Guidance",
+    description: "Explore Vedic astrology services and book a personal consultation with SmartJyotishi.",
     type: "website",
   },
 };
-
-const values = [
-  { icon: "star", title: "Practical Guidance", text: "Clear conversations about your questions and personal priorities." },
-  { icon: "sparkles", title: "Vedic Perspective", text: "Explore interpretations from traditional Indian astrology." },
-  { icon: "message", title: "Personal Approach", text: "Every enquiry begins with the topic that matters to you." },
-  { icon: "shield", title: "Your Growth Matters", text: "Reflect on choices with perspective, without promised outcomes." },
-] as const;
-
-const reasons = [
-  { icon: "star", title: "In-depth Exploration", text: "Discuss birth charts and the symbolic ideas behind traditional interpretations." },
-  { icon: "message", title: "Clear Communication", text: "Understand the consultation scope, format and fees before arranging a session." },
-  { icon: "sparkles", title: "Personalized Discussion", text: "Focus on the questions and life topics you actually want to explore." },
-  { icon: "shield", title: "Respectful Approach", text: "Guidance remains interpretive. Your decisions and wellbeing come first." },
-] as const;
 
 function HomeHero() {
   return (
@@ -56,13 +41,13 @@ function HomeHero() {
       <div aria-hidden="true" className="home-hero-shade" />
       <Container className="home-hero-content relative z-10 flex items-center">
         <div className="home-hero-copy w-full max-w-[590px]">
-          <p className="home-kicker mb-3 sm:mb-4">Meet the person behind Tothepoint Astrology</p>
+          <p className="home-kicker mb-3 sm:mb-4">Traditional Vedic Astrology • Personal Consultations</p>
           <h1 id="home-title" className="home-hero-title font-display text-cream">
-            About
-            <span className="block text-gold-light">Hariom Shrivastava</span>
+            Find Perspective
+            <span className="block text-gold-light">With SmartJyotishi</span>
           </h1>
           <h2 className="home-hero-subtitle mt-4 font-display text-lg leading-snug text-cream sm:text-xl lg:text-2xl">
-            Astrology with Purpose. Guidance for a Better Tomorrow.
+            Explore Your Questions Through Traditional Astrology.
           </h2>
           <p className="home-hero-description mt-3 max-w-[540px] text-sm leading-[1.7] text-cream/85 sm:text-base">
             At {siteConfig.name}, explore traditional Vedic astrology through a clear,
@@ -79,142 +64,65 @@ function HomeHero() {
   );
 }
 
-function ValuesStrip() {
+function ServicesOverview() {
   return (
-    <section aria-label="Guiding values" className="home-paper border-b border-[#e0d5c3] py-9 sm:py-11">
-      <Container className="grid grid-cols-2 gap-y-8 lg:grid-cols-4 lg:gap-y-0">
-        {values.map((item, index) => (
-          <article key={item.title} className={["flex flex-col items-center px-3 text-center sm:px-7", index > 0 ? "lg:border-l lg:border-[#d9c7ae]" : ""].join(" ")}>
-            <span className="text-[#93631c]"><Icon name={item.icon} size={42} strokeWidth={1.45}/></span>
-            <h2 className="mt-3 font-display text-base font-semibold text-[#102032] sm:text-lg">{item.title}</h2>
-            <p className="mt-2 max-w-[270px] text-xs leading-6 text-[#4c4b46] sm:text-sm">{item.text}</p>
-          </article>
-        ))}
-      </Container>
-    </section>
-  );
-}
-
-function Journey() {
-  return (
-    <section id="about" aria-labelledby="journey-title" className="home-night relative overflow-hidden py-14 sm:py-20">
-      <div aria-hidden="true" className="star-field absolute inset-0 opacity-20"/>
-      <Container className="relative grid items-center gap-10 lg:grid-cols-[.9fr_1.1fr] lg:gap-16">
-        <div className="relative mx-auto w-full max-w-[480px]">
-          <AstrologerVisual variant="journey"/>
-        </div>
-        <div>
-          <p className="home-kicker">My Journey</p>
-          <h2 id="journey-title" className="mt-3 max-w-3xl font-display text-3xl leading-tight text-cream sm:text-5xl">
-            A Thoughtful Approach to <span className="text-gold-light">Astrology</span>
-          </h2>
-          <p className="mt-5 text-sm leading-7 text-cream/75 sm:text-[15px]">
-            Traditional astrology has long been one way people explore questions of timing,
-            relationships and direction. {siteConfig.name} offers a setting to discuss these
-            ideas with {siteConfig.astrologer} in a personal conversation.
-          </p>
-          <p className="mt-4 text-sm leading-7 text-cream/75 sm:text-[15px]">
-            From Kundli analysis to Vastu and Muhurat, the starting point is simple:
-            share what you want to understand, discuss the approach, and decide which
-            consultation is relevant to you.
-          </p>
-          <div className="mt-7 grid grid-cols-3 gap-2 sm:gap-3">
-            {[
-              { highlight: "6", title: "Consultation Areas" },
-              { highlight: "Direct", title: "WhatsApp Enquiries" },
-              { highlight: "Personal", title: "Discussion First" },
-            ].map((item) => (
-              <div key={item.title} className="rounded-md border border-gold/30 bg-[#0c2033]/65 px-2 py-5 text-center sm:px-3">
-                <p className="break-words font-display text-[clamp(1.05rem,4vw,1.5rem)] font-semibold text-gold-light sm:text-3xl">{item.highlight}</p>
-                <p className="mt-2 text-[11px] leading-5 text-cream/75 sm:text-xs">{item.title}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-function WhyChoose() {
-  return (
-    <section aria-labelledby="why-title" className="home-paper border-y border-[#e3d6c6] py-13 sm:py-17">
+    <section aria-labelledby="services-title" className="home-paper border-b border-[#e0d5c3] py-14 sm:py-20">
       <Container>
         <div className="mx-auto max-w-3xl text-center">
-          <h2 id="why-title" className="font-display text-3xl leading-tight text-[#112336] sm:text-[42px]">Why Choose Tothepoint Astrology?</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#4e4d48]">
-            Traditional perspectives and practical conversations, explained with care and clarity.
-          </p>
+          <p className="eyebrow">What We Offer</p>
+          <h2 id="services-title" className="mt-3 font-display text-3xl text-[#102234] sm:text-5xl">Explore Our Consultations</h2>
+          <p className="mt-3 text-sm leading-7 text-[#514e47]">Choose the traditional astrology topic that matches your questions.</p>
         </div>
-        <div className="mt-9 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-5">
-          {reasons.map((item) => (
-            <article key={item.title} className="home-reason-card flex min-h-[205px] flex-col items-center rounded-lg border border-[#e7daca] px-3 py-6 text-center sm:px-6">
-              <span className="text-[#8b5d1c]"><Icon name={item.icon} size={39} strokeWidth={1.5}/></span>
-              <h3 className="mt-4 font-display text-base font-semibold text-[#142538] sm:text-lg">{item.title}</h3>
-              <p className="mt-2 text-[13px] leading-[1.55] text-[#4f4a44] sm:text-sm">{item.text}</p>
-            </article>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-function Approach() {
-  return (
-    <section id="approach" aria-labelledby="approach-title" className="home-approach home-night relative overflow-hidden border-b border-gold/20 py-14 sm:py-19">
-      <div aria-hidden="true" className="star-field absolute inset-0 opacity-20"/>
-      <Container className="relative">
-        <div className="mb-10 text-center">
-          <h2 id="approach-title" className="font-display text-3xl text-cream sm:text-5xl">My Approach</h2>
-          <p className="mt-3 text-sm text-cream/70">A balance of traditional perspectives and clear communication.</p>
-        </div>
-        <ol className="grid grid-cols-2 gap-x-4 gap-y-9 md:grid-cols-4 md:gap-x-5">
-          {consultationSteps.map((step, index) => (
-            <li key={step.number} className="relative text-center">
-              <div className="mx-auto flex size-[70px] items-center justify-center rounded-full border-2 border-[#d5ae73] bg-[#061427]/90 text-gold-light shadow-[0_0_0_4px_rgba(226,169,89,.06)]">
-                <Icon name={step.icon} size={32}/>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {servicePreviews.map((service) => (
+            <Link href={"/services/" + service.slug} key={service.slug} className="group flex min-h-[170px] flex-col justify-between rounded-xl border border-[#dfccae] bg-[#fff9ef] p-6 shadow-[0_10px_30px_rgba(60,40,20,.05)] transition-transform hover:-translate-y-1 hover:border-[#a77835]">
+              <ServiceGlyph name={service.icon} size={36}/>
+              <div className="mt-7 flex items-end justify-between gap-3">
+                <h3 className="font-display text-xl font-semibold text-[#16283b]">{service.title}</h3>
+                <Icon name="arrow-up-right" size={19} className="shrink-0 text-[#95651e]"/>
               </div>
-              {index < consultationSteps.length-1 && <span aria-hidden="true" className="home-step-connector hidden md:block"/>}
-              <h3 className="mt-4 font-display text-lg font-semibold text-cream sm:text-xl">{index+1}. {["Understand","Interpret","Guide","Support"][index]}</h3>
-              <p className="mx-auto mt-2 max-w-[220px] text-xs leading-6 text-cream/70 sm:text-sm">{step.description}</p>
-            </li>
+            </Link>
           ))}
-        </ol>
+        </div>
       </Container>
     </section>
   );
 }
 
-function Knowledge() {
-  const items: { title:string; description:string; icon:IconName }[] = [
-    { icon: "star", title: "Traditional Sources", description: "Explore themes associated with classical Vedic astrology." },
-    { icon: "sparkles", title: "Learning & Reflection", description: "Understand the meaning and limits of traditional interpretations." },
-    { icon: "calendar", title: "Six Service Areas", description: "Kundli, relationships, career, numerology, Vastu and Muhurat." },
-    { icon: "shield", title: "Responsible Guidance", description: "No guaranteed predictions or replacement for qualified advice." },
+function MeetTheAstrologer() {
+  return (
+    <section aria-labelledby="meet-title" className="home-night relative overflow-hidden py-14 sm:py-20">
+      <div aria-hidden="true" className="star-field absolute inset-0 opacity-20"/>
+      <Container className="relative grid items-center gap-10 lg:grid-cols-[.9fr_1.1fr] lg:gap-16">
+        <div className="relative mx-auto w-full max-w-[480px]"><AstrologerVisual variant="journey"/></div>
+        <div>
+          <p className="home-kicker">Meet Your Astrologer</p>
+          <h2 id="meet-title" className="mt-3 font-display text-3xl leading-tight text-cream sm:text-5xl">Consult with <span className="text-gold-light">{siteConfig.astrologer}</span></h2>
+          <p className="mt-5 text-sm leading-7 text-cream/75 sm:text-[15px]">Talk through your questions with a personal approach to traditional Vedic astrology. Learn more about the astrologer, his perspective and consultation principles on the About page.</p>
+          <div className="mt-7"><ActionLink href="/about" variant="outline">Meet Hariom Shrivastava</ActionLink></div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function BookingSteps() {
+  const steps = [
+    { icon: "star" as const, title: "Choose a Service", description: "Select the area you would like to explore." },
+    { icon: "message" as const, title: "Share Your Question", description: "Discuss your enquiry, scope and consultation details." },
+    { icon: "calendar" as const, title: "Arrange a Session", description: "Confirm availability and book directly on WhatsApp." },
   ];
   return (
-    <section aria-labelledby="knowledge-title" className="home-paper py-12 sm:py-16">
+    <section aria-labelledby="steps-title" className="home-paper py-14 sm:py-20">
       <Container>
-        <div className="text-center">
-          <h2 id="knowledge-title" className="font-display text-3xl text-[#102234] sm:text-[42px]">Knowledge &amp; Practice</h2>
-          <p className="mt-2 text-sm text-[#514e47]">Traditional topics, presented clearly and thoughtfully.</p>
-        </div>
-        <div className="mt-8 grid grid-cols-2 gap-y-8 lg:grid-cols-4 lg:gap-y-0">
-          {items.map((item,index) => (
-            <article key={item.title} className={["px-3 text-center sm:px-6",index>0?"lg:border-l lg:border-[#dbcbb6]":""].join(" ")}>
-              <span className="inline-flex items-center justify-center text-[#95651e]"><Icon name={item.icon} size={34} strokeWidth={1.5}/></span>
-              <h3 className="mt-3 font-display text-base font-semibold text-[#152538] sm:text-lg">{item.title}</h3>
-              <p className="mt-2 text-xs leading-6 text-[#554d42] sm:text-sm">{item.description}</p>
+        <h2 id="steps-title" className="text-center font-display text-3xl text-[#102234] sm:text-5xl">How to Get Started</h2>
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {steps.map((step, index) => (
+            <article key={step.title} className="rounded-xl border border-[#e0d0b8] p-6 text-center">
+              <span className="mx-auto flex size-14 items-center justify-center rounded-full bg-[#f3e7d3] text-[#95651e]"><Icon name={step.icon} size={28}/></span>
+              <h3 className="mt-4 font-display text-xl font-semibold text-[#13283a]">{index + 1}. {step.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-[#514e47]">{step.description}</p>
             </article>
-          ))}
-        </div>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-2 border-t border-[#e2d3bf] pt-7" aria-label="Explore the six consultation services">
-          {servicePreviews.map((service) => (
-            <Link key={service.slug} href={"/services/"+service.slug}
-              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#d8c3a4] bg-[#fff9ef] px-4 py-2 text-xs font-semibold text-[#684317] transition-colors hover:border-[#916222] hover:bg-white">
-              <ServiceGlyph name={service.icon} size={20}/>{service.title}
-            </Link>
           ))}
         </div>
       </Container>
@@ -252,11 +160,9 @@ export default function HomePage() {
   return (
     <>
       <HomeHero/>
-      <ValuesStrip/>
-      <Journey/>
-      <WhyChoose/>
-      <Approach/>
-      <Knowledge/>
+      <ServicesOverview/>
+      <MeetTheAstrologer/>
+      <BookingSteps/>
       <ClosingCallToAction/>
     </>
   );
