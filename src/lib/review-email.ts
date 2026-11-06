@@ -27,7 +27,7 @@ export function createReviewEmailUrl(draft: FeedbackDraft): string {
 
   const category = testimonialCategories.find((item) => item.slug === draft.category);
   const body = [
-    "Tothepoint Astrology - feedback for manual review",
+    "SmartJyotishi - feedback for manual review",
     "",
     `Display name: ${draft.displayName.trim() || "Not provided"}`,
     `Consultation category: ${category?.label ?? ""}`,
@@ -40,5 +40,5 @@ export function createReviewEmailUrl(draft: FeedbackDraft): string {
     "This email is a submission for review. Do not publish without verification and approval.",
   ].join("\n");
 
-  return `mailto:${siteConfig.contactEmail}?subject=${encodeURIComponent("Tothepoint Astrology - client feedback")}&body=${encodeURIComponent(body)}`;
+  return `mailto:${siteConfig.contactEmail}?subject=${encodeURIComponent("SmartJyotishi - client feedback")}&body=${encodeURIComponent(body)}`;
 }

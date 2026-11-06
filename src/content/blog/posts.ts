@@ -4,6 +4,8 @@ import CareerQuestions from "./career-questions-and-vedic-astrology.mdx";
 import NumerologyIntro from "./numerology-numbers-and-meaning.mdx";
 import VastuBasics from "./vastu-basics-for-home.mdx";
 import MuhuratIntro from "./muhurat-and-traditional-timing.mdx";
+import ConsultationPreparation from "./preparing-for-an-astrology-consultation.mdx";
+import InternationalConsultations from "./online-astrology-abroad-time-zones.mdx";
 import type { ComponentType } from "react";
 import type { BlogPost } from "@/config/blog";
 
@@ -15,4 +17,6 @@ export const articleComponents: Record<string, ComponentType> = {
   "numerology-numbers-and-meaning": NumerologyIntro,
   "vastu-basics-for-home": VastuBasics,
   "muhurat-and-traditional-timing": MuhuratIntro,
+  "preparing-for-an-astrology-consultation": ConsultationPreparation,
+  "online-astrology-abroad-time-zones": InternationalConsultations,
 } satisfies Record<BlogPost["slug"], ComponentType>;

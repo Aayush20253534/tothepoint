@@ -44,11 +44,11 @@ test("all six completed service routes are statically generated with metadata", 
   assert.match(page, /<WhatsAppBookingLink service=\{service.title\}/);
 });
 
-test("reference-inspired homepage has the seven requested sections in the correct order", () => {
+test("homepage presents services, consultation options and booking information in order", () => {
   const page = source("src/app/page.tsx");
   const order = [
-    "<HomeHero/>", "<ValuesStrip/>", "<Journey/>", "<WhyChoose/>",
-    "<Approach/>", "<Knowledge/>", "<ClosingCallToAction/>",
+    "<HomeHero/>", "<ServicesOverview/>", "<ConsultationOptions/>", "<MeetTheAstrologer/>",
+    "<BookingSteps/>", "<HomeFaq/>", "<ClosingCallToAction/>",
   ];
   let previous = -1;
   for (const section of order) {

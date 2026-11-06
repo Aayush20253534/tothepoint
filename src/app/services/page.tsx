@@ -1,7 +1,8 @@
-import { canonicalPath, getSiteOrigin, breadcrumbSchema } from "@/lib/seo";
+import { ConsultationOptions } from "@/components/booking/consultation-options";
+import { pageMetadata } from "@/lib/metadata";
+import { getSiteOrigin, breadcrumbSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
 import { WhatsAppBookingLink } from "@/components/booking/whatsapp-booking-link";
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ServiceArtwork } from "@/components/services/service-artwork";
 import { ActionLink } from "@/components/ui/action-link";
@@ -16,18 +17,11 @@ import {
   serviceQuestions,
 } from "@/config/services-overview";
 
-export const metadata: Metadata = {
-  alternates: { canonical: canonicalPath("/services") },
-  title: "Astrology Consultation Services",
-  description:
-    "Explore Tothepoint Astrology services including Kundli Analysis, Marriage & Relationships, Career Guidance, Numerology, Vastu and Muhurat. Enquire directly on WhatsApp.",
-  openGraph: {
-    title: "Astrology Services | Tothepoint Astrology",
-    description:
-      "Explore our six astrology consultation topics and message us on WhatsApp to arrange a consultation.",
-    type: "website",
-  },
-};
+export const metadata = pageMetadata(
+  "/services",
+  "Vedic Astrology Consultation Services",
+  "Explore Kundli analysis, marriage compatibility, career astrology, numerology, Vastu and Muhurat consultations in Prayagraj and online worldwide.",
+);
 
 function ServicesHero() {
   return (
@@ -51,7 +45,7 @@ function ServicesHero() {
           </h2>
           <p className="page-hero-lead mt-5 max-w-xl text-[15px] leading-8 text-cream/75 sm:text-base">
             Explore six consultation topics, from birth charts and relationships to Vastu and Muhurat.
-            Discuss your questions with Tothepoint Astrology and arrange the details directly.
+            Discuss your questions with SmartJyotishi and arrange the details directly.
           </p>
           <div className="page-hero-actions mt-6 flex flex-wrap gap-3">
             <WhatsAppBookingLink icon="message">Book Consultation</WhatsAppBookingLink>
@@ -260,7 +254,7 @@ function FinalCta() {
             Ready to Explore Your <span className="gold-gradient-text">Questions?</span>
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-7 text-muted sm:text-base">
-            Contact Tothepoint Astrology on WhatsApp. A consultation is arranged only once the details are confirmed.
+            Contact SmartJyotishi on WhatsApp. A consultation is arranged only once the details are confirmed.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -284,6 +278,7 @@ export default function ServicesPage() {
       <ReviewSection />
       <ServicesFaq />
       <FinalCta />
+      <ConsultationOptions/>
     </>
   );
 }

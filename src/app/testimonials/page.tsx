@@ -1,4 +1,4 @@
-import { canonicalPath } from "@/lib/seo";
+import { canonicalPath, isIndexingAllowed } from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { WhatsAppBookingLink } from "@/components/booking/whatsapp-booking-link";
@@ -16,10 +16,10 @@ export const metadata: Metadata = {
   alternates: { canonical: canonicalPath("/testimonials") },
   title: "Client Testimonials & Experiences",
   description:
-    "Explore verified client experiences at Tothepoint Astrology. Share your feedback for manual review and arrange an astrology consultation on WhatsApp.",
-  robots: { index: hasPublicReviews, follow: true },
+    "Explore verified client experiences at SmartJyotishi. Share your feedback for manual review and arrange an astrology consultation on WhatsApp.",
+  robots: { index: hasPublicReviews && isIndexingAllowed(), follow: true },
   openGraph: {
-    title: "Client Testimonials | Tothepoint Astrology",
+    title: "Client Testimonials | SmartJyotishi",
     description: "Authentic, approved client experiences and feedback.",
     type: "website",
   },

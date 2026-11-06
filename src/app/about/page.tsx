@@ -1,7 +1,7 @@
-import { canonicalPath, getSiteOrigin, breadcrumbSchema } from "@/lib/seo";
+import { pageMetadata } from "@/lib/metadata";
+import { getSiteOrigin, breadcrumbSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
 import { WhatsAppBookingLink } from "@/components/booking/whatsapp-booking-link";
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { AboutCta } from "@/components/about/about-cta";
@@ -12,18 +12,11 @@ import { aboutValues } from "@/config/about";
 import { siteConfig } from "@/config/site";
 import "./about-hero.css";
 
-export const metadata: Metadata = {
-  alternates: { canonical: canonicalPath("/about") },
-  title: "About Hariom Shrivastava",
-  description:
-    "Get to know SmartJyotishi and Hariom Shrivastava, explore our traditional astrology consultation approach and connect directly through WhatsApp.",
-  openGraph: {
-    title: "About Hariom Shrivastava | SmartJyotishi",
-    description:
-      "Learn about our personal approach to traditional astrology and how to arrange a consultation.",
-    type: "website",
-  },
-};
+export const metadata = pageMetadata(
+  "/about",
+  "About Hariom Shrivastava",
+  "Meet Hariom Shrivastava at SmartJyotishi. Explore his approach to Vedic astrology consultations in Prayagraj and online in Hindi and English.",
+);
 
 function AboutHero() {
   return (

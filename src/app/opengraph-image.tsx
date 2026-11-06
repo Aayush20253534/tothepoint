@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { siteConfig } from "@/config/site";
 
-export const alt = "Tothepoint Astrology — Traditional Astrology, Personal Guidance";
+export const alt = "SmartJyotishi — Astrology in Prayagraj & Online Worldwide";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -14,16 +14,16 @@ export default function OpenGraphImage() {
     }}>
       <div style={{ display: "flex", flexDirection: "column", maxWidth: 740 }}>
         <div style={{ color: "#e8b664", fontSize: 25, letterSpacing: 7, marginBottom: 30 }}>
-          TRADITIONAL ASTROLOGY
+          PRAYAGRAJ · ONLINE WORLDWIDE
         </div>
         <div style={{ fontSize: 79, lineHeight: 1.06, fontWeight: 700 }}>
           {siteConfig.name}
         </div>
         <div style={{ color: "#f8d99d", fontSize: 33, marginTop: 30 }}>
-          Guidance · Clarity · Better Tomorrow
+          Personal guidance. Vedic perspectives.
         </div>
         <div style={{ fontFamily: "sans-serif", color: "#b5bdc9", fontSize: 23, marginTop: 26 }}>
-          Kundli · Relationships · Career · Numerology · Vastu · Muhurat
+          Hariom Shrivastava · Hindi & English
         </div>
       </div>
       <div style={{

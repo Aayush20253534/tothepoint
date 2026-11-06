@@ -63,5 +63,5 @@ test("redesigned homepage directs enquiries to WhatsApp and links each service",
   const page = read("src/app/page.tsx");
   assert.match(page, /<WhatsAppBookingLink/);
   assert.match(page, /servicePreviews\.map/);
-  assert.match(page, /href=\{"\/services\/"\+service.slug\}/);
+  assert.match(page, /href=\{"\/services\/"\s*\+\s*service.slug\}/);
 });

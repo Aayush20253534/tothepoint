@@ -19,7 +19,7 @@ try {
   process.exit(2);
 }
 const routes = [
-  "/", "/about", "/services", "/services/kundli-analysis",
+  "/", "/astrologer-in-prayagraj", "/online-astrology-consultation", "/about", "/services", "/services/kundli-analysis",
   "/services/marriage-relationship", "/services/career-guidance",
   "/services/numerology", "/services/vastu", "/services/muhurat",
   "/blog", "/blog/understanding-kundli-basics",
@@ -27,6 +27,7 @@ const routes = [
   "/blog/career-questions-and-vedic-astrology",
   "/blog/numerology-numbers-and-meaning",
   "/blog/vastu-basics-for-home", "/blog/muhurat-and-traditional-timing",
+  "/blog/preparing-for-an-astrology-consultation", "/blog/online-astrology-abroad-time-zones",
   "/contact", "/testimonials", "/privacy-policy", "/terms-and-conditions",
   "/refund-policy",
 ];
@@ -47,6 +48,13 @@ for(const path of routes) {
   if(res.status!==200 || !/<h1(?:\s|>)/i.test(html)){
     failures.push(`${path}: expected HTTP 200 with an H1, received HTTP ${res.status}`);
   }else console.log(`PASS ${path} (200)`);
+  const draft = ["/testimonials", "/privacy-policy", "/terms-and-conditions", "/refund-policy"].includes(path);
+  if (!draft) {
+    const canonical = html.match(/<link[^>]*rel="canonical"[^>]*href="([^"]+)"/i)?.[1];
+    if (canonical !== origin + path) failures.push(`${path}: wrong or missing production canonical: ${canonical}`);
+    if (/<meta[^>]*name="robots"[^>]*content="[^"]*noindex/i.test(html)) failures.push(`${path}: public page is noindex`);
+    if (!html.includes('application/ld+json')) failures.push(`${path}: missing structured data`);
+  }
 }
 const favicon=await check("/icon.svg");
 if(favicon && (favicon.status!==200 || !favicon.headers.get("content-type")?.includes("svg"))) failures.push("icon.svg is missing or wrong content type");
@@ -55,14 +63,15 @@ if(openGraph && (openGraph.status!==200 || !openGraph.headers.get("content-type"
 const robots=await check("/robots.txt");
 if(robots){
  const text=await robots.text();
- if(robots.status!==200 || !text.includes("User-agent:"))failures.push("/robots.txt invalid");
+ if(robots.status!==200 || !text.includes("User-agent:") || /^Disallow: \/$/m.test(text) || !text.includes(`Sitemap: ${origin}/sitemap.xml`))failures.push("/robots.txt invalid");
  else console.log("PASS robots.txt");
 }
 const sitemap=await check("/sitemap.xml");
 if(sitemap){
  const text=await sitemap.text();
- if(sitemap.status!==200)failures.push("/sitemap.xml failed");
- else console.log(`PASS sitemap.xml (${text.includes("<loc>")?"indexed URL entries present":"safe empty sitemap while canonical domain is unset"})`);
+ const urls = [...text.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
+ if(sitemap.status!==200 || urls.length < 21 || urls.some(url => !url.startsWith(origin + "/"))) failures.push("/sitemap.xml failed or canonical URL coverage is incomplete");
+ else console.log(`PASS sitemap.xml (${urls.length} canonical entries)`);
 }
 const invalid=await check("/api/contact",{
  method:"POST",headers:{"Content-Type":"application/json"},

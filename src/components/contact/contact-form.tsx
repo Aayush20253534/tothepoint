@@ -103,11 +103,11 @@ export function ContactForm() {
       <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-gold/20 bg-navy-deep/70 p-4 text-sm leading-6 text-cream/85">
         <input type="checkbox" checked={form.consent} onChange={(e)=>edit("consent",e.target.checked)}
           required aria-invalid={!!errors.consent} className="mt-1 size-4 shrink-0 accent-[#e8b664]"/>
-        <span>I agree that Tothepoint Astrology may use my details to respond to this enquiry. See the <Link href="/privacy-policy" className="text-gold-light underline underline-offset-4">Privacy Policy</Link>. *</span>
+        <span>I agree that SmartJyotishi may use my details to respond to this enquiry. See the <Link href="/privacy-policy" className="text-gold-light underline underline-offset-4">Privacy Policy</Link>. *</span>
       </label>
       {errors.consent && <p className="text-xs text-red-200">{errors.consent}</p>}
       <p className="text-xs leading-6 text-muted">
-        This form sends an email to Tothepoint Astrology when email delivery is configured. It does not book or confirm a consultation.
+        This form sends an email to SmartJyotishi when email delivery is configured. It does not book or confirm a consultation.
       </p>
       {notice && <p role={sent?"status":"alert"} aria-live="polite" className={["rounded-lg border px-4 py-3 text-sm leading-6",sent?"border-gold/40 bg-gold/10 text-cream":"border-red-400/40 bg-red-400/10 text-red-100"].join(" ")}>{notice}</p>}
       <button disabled={pending} type="submit" className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-navy hover:bg-gold-light disabled:opacity-60 sm:w-auto">

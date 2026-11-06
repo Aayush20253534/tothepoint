@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next";
-import { getIndexablePaths, getSiteOrigin } from "@/lib/seo";
+import { getIndexablePaths, getSiteOrigin, isIndexingAllowed } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
 /** No fabricated lastModified timestamps. Unverified domains yield no URLs. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const origin = getSiteOrigin();
-  if (!origin) return [];
+  if (!origin || !isIndexingAllowed()) return [];
   return getIndexablePaths().map((path) => ({
     url: `${origin}${path}`,
     changeFrequency: path === "/" ? "weekly" : "monthly",

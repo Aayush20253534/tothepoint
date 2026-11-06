@@ -20,7 +20,7 @@ test("about service links map exactly to the six available services", () => {
 
 test("dedicated /about route exists with metadata, navigation, and WhatsApp CTAs", () => {
   const page = read("src/app/about/page.tsx");
-  for (const s of ["export const metadata", "About Hariom Shrivastava", "href=\"/\"", "WhatsAppBookingLink", "AboutCta", "consultationSteps", "areasOfInterest", "AstrologerVisual"]) {
+  for (const s of ["export const metadata", "About Hariom Shrivastava", "href=\"/\"", "WhatsAppBookingLink", "AboutCta", "aboutValues", "AboutHero", "Image"]) {
     assert.ok(page.includes(s), "Missing About page requirement: " + s);
   }
   assert.ok(!page.includes("1000+"));

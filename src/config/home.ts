@@ -1,5 +1,5 @@
 /** Approved service categories and carefully worded website introduction.
- * Prices, ratings, credentials, reviews and business location are intentionally absent.
+ * Prices, ratings, credentials and reviews are intentionally absent.
  */
 export const servicePreviews = [
   {
@@ -55,7 +55,7 @@ export const frequentlyAskedQuestions = [
   },
   {
     question: "Are consultations available online or in person?",
-    answer: "Please ask through WhatsApp about current consultation formats, availability and timings. These details are confirmed before an appointment is arranged.",
+    answer: "Yes. Visit the Prayagraj office by appointment or arrange an online consultation from India or abroad. Sessions are available in Hindi and English. Confirm the office directions or online format, time zone and availability on WhatsApp before booking.",
   },
   {
     question: "How much does a consultation cost?",

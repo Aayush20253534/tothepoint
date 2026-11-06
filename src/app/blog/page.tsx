@@ -1,6 +1,6 @@
-import { canonicalPath, getSiteOrigin, breadcrumbSchema } from "@/lib/seo";
+import { pageMetadata } from "@/lib/metadata";
+import { getSiteOrigin, breadcrumbSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
-import type { Metadata } from "next";
 import Link from "next/link";
 import { BlogArtwork } from "@/components/blog/blog-artwork";
 import { BlogBrowser } from "@/components/blog/blog-browser";
@@ -9,16 +9,11 @@ import { Container } from "@/components/ui/container";
 import { Icon } from "@/components/ui/icons";
 import { blogPosts, blogCategories } from "@/config/blog";
 
-export const metadata: Metadata = {
-  alternates: { canonical: canonicalPath("/blog") },
-  title: "Astrology Articles and Educational Guides",
-  description: "Read clear, educational articles about Kundli, relationships, career, numerology, Vastu and Muhurat at Tothepoint Astrology.",
-  openGraph: {
-    title: "Astrology Insights | Tothepoint Astrology",
-    description: "Explore educational guides to traditional astrology ideas and consultation topics.",
-    type: "website",
-  },
-};
+export const metadata = pageMetadata(
+  "/blog",
+  "Vedic Astrology Guides & Consultation Advice",
+  "Read SmartJyotishi guides to Kundli, compatibility, career astrology, numerology, Vastu, Muhurat and preparing for an online astrology consultation.",
+);
 
 export default function BlogPage() {
   const featured = blogPosts[0];

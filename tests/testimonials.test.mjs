@@ -34,7 +34,7 @@ test("the page has no fictional testimonials, ratings or videos", () => {
   assert.equal(approvedVideoReviews.length, 0);
   assert.equal(getPublicVideoReviews(approvedVideoReviews).length, 0);
   const page = read("src/app/testimonials/page.tsx");
-  assert.match(page, /robots: \{ index: hasPublicReviews, follow: true \}/);
+  assert.match(page, /robots: \{ index: hasPublicReviews && isIndexingAllowed\(\), follow: true \}/);
   assert.doesNotMatch(page, /1000\+|4\.9\/5|five.star experience|Priya Sharma/);
 });
 

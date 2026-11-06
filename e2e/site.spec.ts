@@ -47,7 +47,7 @@ test("blog search and category filters update the displayed articles", async ({ 
   await page.getByRole("button", { name: "Career", exact: true }).click();
   await expect(page.getByText("0 articles found")).toBeVisible();
   await page.getByRole("button", { name: "Clear filters" }).click();
-  await expect(page.getByText("6 articles found")).toBeVisible();
+  await expect(page.getByText("8 articles found")).toBeVisible();
 });
 
 test("contact form reports validation errors without sending an unconfigured email", async ({ page }) => {
@@ -64,14 +64,17 @@ test("unverified legal pages and testimonials cannot be indexed", async ({ page 
   }
 });
 
-test("without a public canonical domain, robots blocks indexing and sitemap is empty", async ({ request }) => {
+test("robots and sitemap match the indexing mode", async ({ request }) => {
+  const home = await request.get("/");
+  const configured = /rel="canonical"/.test(await home.text());
   const robots = await request.get("/robots.txt");
   expect(robots.status()).toBe(200);
-  expect(await robots.text()).toContain("Disallow: /");
+  const robotsText = await robots.text();
+  expect(robotsText.includes("Disallow: /\n")).toBe(!configured);
   const sitemap = await request.get("/sitemap.xml");
   expect(sitemap.status()).toBe(200);
   const body = await sitemap.text();
-  expect(body).not.toContain("<loc>");
+  expect(body.includes("<loc>")).toBe(configured);
 });
 
 test("key pages meet WCAG automated serious and critical checks", async ({ page }) => {

@@ -1,4 +1,7 @@
-import { canonicalPath, getSiteOrigin, breadcrumbSchema, serviceSchema } from "@/lib/seo";
+import { pageMetadata } from "@/lib/metadata";
+import { ConsultationOptions } from "@/components/booking/consultation-options";
+import { blogPosts } from "@/config/blog";
+import { getSiteOrigin, breadcrumbSchema, serviceSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
 import { WhatsAppBookingLink } from "@/components/booking/whatsapp-booking-link";
 import type { Metadata } from "next";
@@ -25,19 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const service = servicePreviews.find((item) => item.slug === slug);
   if (!service) return { title: "Service Not Found", robots: { index: false } };
-  const profile = serviceProfiles[service.slug];
-  const description = profile.introduction;
-  return {
-    alternates: { canonical: canonicalPath(`/services/${service.slug}`) },
-    title: `${service.title} Consultation`,
-    description,
-    openGraph: {
-      title: `${service.title} | Tothepoint Astrology`,
-      description,
-      type: "website",
-    },
-    twitter: { card: "summary", title: service.title, description },
-  };
+  return pageMetadata(`/services/${service.slug}`, `${service.title} — Prayagraj & Online`,
+    `${service.description} Consult Hariom Shrivastava in Prayagraj or online worldwide, in Hindi and English.`);
 }
 
 export default async function ServicePage({ params }: Props) {
@@ -45,6 +37,8 @@ export default async function ServicePage({ params }: Props) {
   const service = servicePreviews.find((item) => item.slug === slug);
   if (!service) notFound();
   const profile = serviceProfiles[service.slug];
+  const guideCategory = ({ "kundli-analysis": "kundli", "marriage-relationship": "relationships", "career-guidance": "career", numerology: "numerology", vastu: "vastu", muhurat: "muhurat" } as const)[service.slug];
+  const guide = blogPosts.find((post) => post.category === guideCategory);
   const relatedServices = servicePreviews.filter((item) => item.slug !== service.slug).slice(0,3);
 
   return (
@@ -64,7 +58,7 @@ export default async function ServicePage({ params }: Props) {
                 <li aria-current="page" className="text-gold-light">{service.title}</li>
               </ol>
             </nav>
-            <p className="eyebrow">Tothepoint Astrology • {service.title}</p>
+            <p className="eyebrow">SmartJyotishi • {service.title}</p>
             <h1 id="service-title" className="page-hero-title mt-5 font-display text-[clamp(3.15rem,5.6vw,5.65rem)] leading-[1.06] tracking-[-.035em] text-cream">
               {service.title}
             </h1>
@@ -276,6 +270,9 @@ export default async function ServicePage({ params }: Props) {
         </Container>
       </section>
 
+      <ConsultationOptions/>
+      {guide && <section className="border-t border-gold/20 bg-navy-deep py-10"><Container><h2 className="font-display text-2xl text-cream">Learn before you book</h2><Link href={`/blog/${guide.slug}`} className="mt-4 inline-flex min-h-11 items-center text-sm text-gold-light underline underline-offset-4">{guide.title}</Link></Container></section>}
+
       {/* Related services provide navigation across all six pages */}
       <section aria-labelledby="related-heading" className="border-t border-gold/20 bg-navy py-16 sm:py-20">
         <Container>
@@ -308,7 +305,7 @@ export default async function ServicePage({ params }: Props) {
           <div className="max-w-3xl">
             <p className="eyebrow">Start a conversation</p>
             <h2 id="final-service-cta" className="mt-3 font-display text-4xl leading-tight text-cream sm:text-5xl">Ready to Discuss {service.title}?</h2>
-            <p className="mt-4 text-sm leading-7 text-muted">Message Tothepoint Astrology on WhatsApp and ask about your consultation.</p>
+            <p className="mt-4 text-sm leading-7 text-muted">Message SmartJyotishi on WhatsApp and ask about your consultation.</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <WhatsAppBookingLink service={service.title} icon="message">Book Consultation</WhatsAppBookingLink>

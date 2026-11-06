@@ -1,6 +1,6 @@
-import { canonicalPath, getSiteOrigin, breadcrumbSchema } from "@/lib/seo";
+import { pageMetadata } from "@/lib/metadata";
+import { getSiteOrigin, breadcrumbSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactForm } from "@/components/contact/contact-form";
 import { WhatsAppBookingLink } from "@/components/booking/whatsapp-booking-link";
@@ -8,13 +8,13 @@ import { CelestialArt } from "@/components/ui/celestial-art";
 import { Container } from "@/components/ui/container";
 import { Icon } from "@/components/ui/icons";
 import { siteConfig } from "@/config/site";
+import { ConsultationOptions } from "@/components/booking/consultation-options";
 
-export const metadata: Metadata = {
-  alternates: { canonical: canonicalPath("/contact") },
-  title: "Contact Us",
-  description: "Contact Tothepoint Astrology and Hariom Shrivastava about Kundli, relationships, career, numerology, Vastu and Muhurat consultations. Email or WhatsApp enquiries.",
-  openGraph: { title: "Contact Tothepoint Astrology", description: "Send an enquiry or connect through WhatsApp to discuss a consultation.", type: "website" },
-};
+export const metadata = pageMetadata(
+  "/contact",
+  "Contact & Prayagraj Office",
+  "Contact Hariom Shrivastava for a Prayagraj office visit or online astrology consultation worldwide. WhatsApp +91 7007962637. Hindi and English.",
+);
 
 function ContactHero() {
   return (
@@ -33,8 +33,8 @@ function ContactHero() {
             Get in <span className="gold-gradient-text">Touch</span>
           </h1>
           <p className="page-hero-lead mt-6 max-w-xl text-base leading-8 text-cream/75">
-            Have a question about an astrology consultation? Reach out to {siteConfig.astrologer} at Tothepoint Astrology.
-            Confirm the service, session format, availability and pricing directly.
+            Contact {siteConfig.astrologer} at SmartJyotishi in Prayagraj.
+            Arrange an office visit or an online consultation worldwide in Hindi or English.
           </p>
           <div className="page-hero-actions mt-6 flex flex-wrap gap-3">
             <WhatsAppBookingLink>Book Consultation</WhatsAppBookingLink>
@@ -54,7 +54,7 @@ function ContactDetails() {
         {[
           { icon: "mail" as const, title: "Email Us", primary: siteConfig.contactEmail, secondary: "For general enquiries", href: `mailto:${siteConfig.contactEmail}` },
           { icon: "message" as const, title: "WhatsApp", primary: "+91 7007962637", secondary: "For consultation enquiries", href: "https://wa.me/917007962637" },
-          { icon: "calendar" as const, title: "Availability", primary: "Confirm directly", secondary: "Appointment details are arranged by message", href: "#contact-form" },
+          { icon: "calendar" as const, title: "Prayagraj Office", primary: "Prayagraj, Uttar Pradesh", secondary: "By appointment. Confirm the exact address and directions before visiting.", href: "/astrologer-in-prayagraj" },
         ].map((option) => (
           <article key={option.title} className="surface-panel rounded-xl px-6 py-7">
             <span className="flex size-12 items-center justify-center rounded-full border border-gold/30 bg-gold/10 text-gold">
@@ -76,13 +76,14 @@ export default function ContactPage() {
       {getSiteOrigin() && <JsonLd data={breadcrumbSchema(getSiteOrigin()!, [{ name: "Home", path: "/" }, { name: "Contact", path: "/contact" }])}/>} 
       <ContactHero/>
       <ContactDetails/>
+      <ConsultationOptions/>
       <section id="contact-form" aria-labelledby="form-title" className="scroll-mt-24 border-b border-gold/20 bg-navy-deep py-16 sm:py-24">
         <Container className="grid gap-11 lg:grid-cols-[.8fr_1.2fr]">
           <div>
             <p className="eyebrow">Write to us</p>
             <h2 id="form-title" className="mt-4 font-display text-4xl text-cream sm:text-5xl">Send Your <span className="gold-gradient-text">Enquiry</span></h2>
             <p className="mt-5 max-w-md text-sm leading-8 text-muted">
-              Complete the form and we will receive your message by email when delivery is enabled. Include only the information necessary to explain your enquiry.
+              Tell us which service you are interested in. For online sessions, include your current city, country and preferred language. For an office visit, mention a convenient date.
             </p>
             <div className="mt-8 space-y-5 text-sm leading-6 text-cream/80">
               {[
