@@ -63,7 +63,7 @@ if(openGraph && (openGraph.status!==200 || !openGraph.headers.get("content-type"
 const robots=await check("/robots.txt");
 if(robots){
  const text=await robots.text();
- if(robots.status!==200 || !text.includes("User-agent:") || /^Disallow: \/$/m.test(text) || !text.includes(`Sitemap: ${origin}/sitemap.xml`))failures.push("/robots.txt invalid");
+ if(robots.status!==200 || !/^User-agent:\s*\*/im.test(text) || /^Disallow:\s*\/\s*$/im.test(text) || !text.includes(`Sitemap: ${origin}/sitemap.xml`))failures.push("/robots.txt invalid");
  else console.log("PASS robots.txt");
 }
 const sitemap=await check("/sitemap.xml");
