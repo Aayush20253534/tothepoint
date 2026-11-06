@@ -1,4 +1,4 @@
-> Historical record for the upstream `ayush-jha-NIT` repository. The active repository is now `Aayush20253534/tothepoint`, with Vercel project `prj_vNmB1BkJL2n3l5rBDlcxnJW4dGF7` in Amplify World. Follow `docs/seo.md` for the current indexing/domain policy; do not reuse the historical domain as canonical.
+> Historical record for the upstream `ayush-jha-NIT` repository. The active repository is now `Aayush20253534/tothepoint`, with Vercel project `prj_vNmB1BkJL2n3l5rBDlcxnJW4dGF7` in Amplify World and verified primary domain `https://www.smartjyotishi.in`. Follow `docs/seo.md` for the current indexing/domain policy; do not reuse the historical domain as canonical.
 
 # Part 14: Production Deployment & Launch Report
 

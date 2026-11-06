@@ -26,6 +26,8 @@ Pages have individual titles/descriptions, self canonicals, absolute Open Graph 
 
 ## Indexing and domain policy
 
+The verified primary production domain is `https://www.smartjyotishi.in`. Vercel redirects `https://smartjyotishi.in` to the `www` host with HTTP 308. The existing `NEXT_PUBLIC_SITE_URL` environment variable is configured to the primary domain. Use `https://www.smartjyotishi.in/sitemap.xml` for webmaster submission.
+
 `NEXT_PUBLIC_SITE_URL` is the preferred verified HTTPS canonical origin. On Vercel production, an unset/invalid value falls back to `VERCEL_PROJECT_PRODUCTION_URL`, the stable production alias. It never uses the unique `VERCEL_URL` deployment hostname. This enables the requested SEO launch without relying on the older fork's domain in historical deployment notes.
 
 Preview/development Vercel builds remain noindex even when they inherit a production custom URL. Unconfigured local builds remain noindex. `SEO_INDEXING_DISABLED=true` disables indexing explicitly; `SEO_ALLOW_VERCEL_DOMAIN=false` disables the alias fallback. Configure a verified custom domain before migrating canonicals, redirect old aliases to it and redeploy.
@@ -66,7 +68,7 @@ EXPECT_INDEXABLE=true npm run test:e2e
 
 Browser checks cover every indexable page, canonical/social metadata, JSON-LD parsing, sitemap completeness, heading counts, missing-route 404s, guide anchors, responsive layouts, keyboard navigation and axe serious/critical violations. CI uploads screenshots for visual review. For an installed system Chromium, `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` can select its binary; use the bundled Playwright browser in normal CI.
 
-Run `BASE_URL=https://ACTUAL-PRODUCTION-HOST npm run smoke:production` after deployment. This checks generated SEO responses and never sends a genuine contact message.
+Run `BASE_URL=https://www.smartjyotishi.in npm run smoke:production` after deployment. This checks generated SEO responses and never sends a genuine contact message.
 
 ## Reference documentation
 

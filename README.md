@@ -61,4 +61,6 @@ Do not treat sample prices, reviews, contact locations, photos, certificates, ex
 
 Work targets `Aayush20253534/tothepoint`. Its Vercel project is `prj_vNmB1BkJL2n3l5rBDlcxnJW4dGF7` in the `amplify-world` team. The older `tothepoint-green.vercel.app` address in `docs/deployment.md` belongs to the upstream repository. Do not copy it into this project’s canonical configuration. Current deployment status must be verified from the GitHub commit checks.
 
+The verified primary domain is **https://www.smartjyotishi.in**. The apex domain redirects to `www`; `NEXT_PUBLIC_SITE_URL` is configured to that primary host. Run `BASE_URL=https://www.smartjyotishi.in npm run smoke:production` after deployment.
+
 The owner confirmed a public Prayagraj office and international online consultations in Hindi and English. Exact office address/Maps URL and webmaster account verification remain outstanding; see `docs/seo.md`.
