@@ -16,8 +16,8 @@ export function SiteFooter() {
           <div className="max-w-xs">
             <BrandMark />
             <p className="mt-5 text-sm leading-7 text-cream/70">
-              Helping you explore life&apos;s questions through the traditions of astrology,
-              with clarity and thoughtful conversation.
+              Astrology consultations with {siteConfig.astrologer} in Prayagraj and online worldwide.
+              Personal conversations in Hindi and English.
             </p>
             <WhatsAppBookingLink variant="outline" size="small" icon="message" className="mt-5">
               Enquire on WhatsApp
@@ -56,7 +56,7 @@ export function SiteFooter() {
                 <Icon name="mail" size={18} className="mt-0.5 shrink-0 text-gold" />
                 <span>{siteConfig.contactEmail}</span>
               </a>
-              <p className="text-xs leading-6 text-cream/55">Consultation details are confirmed directly. No appointment is booked automatically.</p>
+              <p className="text-sm leading-6 text-cream/70">Prayagraj, Uttar Pradesh, India<br/>Office visits by appointment. Confirm directions on WhatsApp.</p>
             </div>
           </div>
         </div>

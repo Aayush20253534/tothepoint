@@ -8,8 +8,8 @@ import { servicePreviews } from "../config/home.ts";
 export function getConsultationWhatsAppUrl(service?: string): string {
   const selectedService = service?.trim().replace(/\s+/g, " ").slice(0, 100);
   const message = selectedService
-    ? `Hello, I would like to book a ${selectedService} consultation with Tothepoint Astrology. Please share available slots.`
-    : "Hello, I would like to book a consultation with Tothepoint Astrology. Please share available slots.";
+    ? `Hello, I would like to book a ${selectedService} consultation with SmartJyotishi. Please share available slots.`
+    : "Hello, I would like to book a consultation with SmartJyotishi. Please share available slots.";
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
 

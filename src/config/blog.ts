@@ -110,6 +110,34 @@ export const blogPosts: readonly BlogPost[] = [
       { id: "before-you-discuss-dates", title: "Before you discuss dates" },
     ],
   },
+  {
+    slug: "preparing-for-an-astrology-consultation",
+    title: "How to Prepare for an Astrology Consultation",
+    excerpt: "Choose useful questions, organize birth details and confirm fees and session arrangements before an office or online astrology consultation.",
+    category: "kundli",
+    readingMinutes: 4,
+    keywords: ["astrology consultation", "prepare", "birth details", "prayagraj", "online"],
+    sections: [
+      { id: "start-with-your-questions", title: "Start with your questions" },
+      { id: "prepare-relevant-details", title: "Prepare relevant details" },
+      { id: "agree-on-the-session", title: "Agree on the session" },
+      { id: "visiting-or-connecting-online", title: "Visiting or connecting online" },
+    ],
+  },
+  {
+    slug: "online-astrology-abroad-time-zones",
+    title: "Booking Online Astrology from Abroad: Time Zones & Birth Details",
+    excerpt: "A practical guide for international clients: separate birth information from your current location and confirm your appointment in both time zones.",
+    category: "kundli",
+    readingMinutes: 4,
+    keywords: ["online astrology", "international", "time zone", "hindi", "english", "abroad"],
+    sections: [
+      { id: "two-locations-two-purposes", title: "Two locations, two purposes" },
+      { id: "confirm-both-time-zones", title: "Confirm both time zones" },
+      { id: "choose-language-and-format", title: "Choose language and format" },
+      { id: "send-a-clear-first-message", title: "Send a clear first message" },
+    ],
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {

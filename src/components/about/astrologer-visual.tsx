@@ -13,7 +13,7 @@ export function AstrologerVisual({ variant = "hero" }: { variant?: "hero" | "jou
         compact ? "max-w-[440px] rounded-[45%_45%_24px_24px] aspect-[.84]" : "max-w-[520px] rounded-[45%_45%_24px_24px] aspect-[1.04]",
       ].join(" ")}
       role="img"
-      aria-label="Decorative celestial illustration representing Tothepoint Astrology"
+      aria-label="Decorative celestial illustration representing SmartJyotishi"
     >
       <div aria-hidden="true" className="absolute inset-0 star-field opacity-35" />
       <div aria-hidden="true" className="absolute -left-14 right-[-60px] top-[-16%] opacity-80">
@@ -25,7 +25,7 @@ export function AstrologerVisual({ variant = "hero" }: { variant?: "hero" | "jou
           HS
         </span>
         <p className="mt-4 font-display text-[clamp(21px,2.7vw,30px)] leading-tight text-cream">Hariom Shrivastava</p>
-        <p className="mt-2 text-[10px] font-semibold uppercase tracking-[.22em] text-gold-light sm:text-xs">Tothepoint Astrology</p>
+        <p className="mt-2 text-[10px] font-semibold uppercase tracking-[.22em] text-gold-light sm:text-xs">SmartJyotishi</p>
       </div>
       <svg viewBox="0 0 500 440" fill="none" aria-hidden="true" className="pointer-events-none absolute inset-0 size-full">
         <path d="M16 368c90-41 162-42 233 0s145 46 236 1" stroke="#e8b664" strokeOpacity=".25" />

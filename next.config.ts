@@ -6,6 +6,7 @@ const withMDX = createMDX({ extension: /\.mdx?$/ });
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  images: { qualities: [75, 85], formats: ["image/webp"] },
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   // All pages are rendered with local system fonts and source-controlled SVGs.
   // Headers apply to server responses; do not cache contact submissions.

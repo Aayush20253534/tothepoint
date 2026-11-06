@@ -1,5 +1,4 @@
-import { canonicalPath } from "@/lib/seo";
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import Link from "next/link";
 import Image from "next/image";
 import { WhatsAppBookingLink } from "@/components/booking/whatsapp-booking-link";
@@ -10,19 +9,15 @@ import { Icon } from "@/components/ui/icons";
 import { ServiceGlyph } from "@/components/home/service-glyph";
 import { servicePreviews } from "@/config/home";
 import { siteConfig } from "@/config/site";
+import { ConsultationOptions } from "@/components/booking/consultation-options";
+import { HomeFaq } from "@/components/home/faq-list";
 import "./homepage.css";
 
-export const metadata: Metadata = {
-  alternates: { canonical: canonicalPath("/") },
-  title: "SmartJyotishi | Vedic Astrology Consultations",
-  description:
-    "Explore SmartJyotishi consultations for Kundli, relationships, career, numerology, Vastu and Muhurat with Hariom Shrivastava.",
-  openGraph: {
-    title: "SmartJyotishi | Vedic Astrology Guidance",
-    description: "Explore Vedic astrology services and book a personal consultation with SmartJyotishi.",
-    type: "website",
-  },
-};
+export const metadata = pageMetadata(
+  "/",
+  "Astrology in Prayagraj & Online Worldwide",
+  "Consult Hariom Shrivastava at SmartJyotishi in Prayagraj or online worldwide. Kundli, marriage, career, numerology, Vastu and Muhurat in Hindi and English.",
+);
 
 function HomeHero() {
   return (
@@ -41,18 +36,15 @@ function HomeHero() {
       <div aria-hidden="true" className="home-hero-shade" />
       <Container className="home-hero-content relative z-10 flex items-center">
         <div className="home-hero-copy w-full max-w-[590px]">
-          <p className="home-kicker mb-3 sm:mb-4">Traditional Vedic Astrology • Personal Consultations</p>
+          <p className="home-kicker mb-3 sm:mb-4">Prayagraj • Online Worldwide</p>
           <h1 id="home-title" className="home-hero-title font-display text-cream">
-            Find Perspective
-            <span className="block text-gold-light">With SmartJyotishi</span>
+            Vedic astrology.
+            <span className="block text-gold-light">Personal guidance.</span>
           </h1>
-          <h2 className="home-hero-subtitle mt-4 font-display text-lg leading-snug text-cream sm:text-xl lg:text-2xl">
-            Explore Your Questions Through Traditional Astrology.
-          </h2>
+          <p className="home-hero-subtitle mt-4 font-display text-lg leading-snug text-cream sm:text-xl lg:text-2xl">Vedic astrology with {siteConfig.astrologer}.</p>
           <p className="home-hero-description mt-3 max-w-[540px] text-sm leading-[1.7] text-cream/85 sm:text-base">
-            At {siteConfig.name}, explore traditional Vedic astrology through a clear,
-            personal conversation. Discuss relationships, career, life decisions and
-            the questions that matter most to you.
+            Explore Kundli, relationships, career and life decisions with {siteConfig.name}.
+            Meet in Prayagraj or connect online from anywhere, in Hindi or English.
           </p>
           <div className="home-hero-actions mt-6 flex flex-wrap gap-3">
             <WhatsAppBookingLink icon="message" className="home-hero-button">Book a Consultation</WhatsAppBookingLink>
@@ -78,7 +70,7 @@ function ServicesOverview() {
             <Link href={"/services/" + service.slug} key={service.slug} className="group flex min-h-[170px] flex-col justify-between rounded-xl border border-[#dfccae] bg-[#fff9ef] p-6 shadow-[0_10px_30px_rgba(60,40,20,.05)] transition-transform hover:-translate-y-1 hover:border-[#a77835]">
               <ServiceGlyph name={service.icon} size={36}/>
               <div className="mt-7 flex items-end justify-between gap-3">
-                <h3 className="font-display text-xl font-semibold text-[#16283b]">{service.title}</h3>
+                <div><h3 className="font-display text-xl font-semibold text-[#16283b]">{service.title}</h3><p className="mt-3 text-sm leading-6 text-[#514e47]">{service.description}</p></div>
                 <Icon name="arrow-up-right" size={19} className="shrink-0 text-[#95651e]"/>
               </div>
             </Link>
@@ -161,8 +153,10 @@ export default function HomePage() {
     <>
       <HomeHero/>
       <ServicesOverview/>
+      <ConsultationOptions/>
       <MeetTheAstrologer/>
       <BookingSteps/>
+      <HomeFaq/>
       <ClosingCallToAction/>
     </>
   );

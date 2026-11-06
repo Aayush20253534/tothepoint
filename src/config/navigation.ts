@@ -3,7 +3,8 @@ export const primaryNavigation = [
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Blog", href: "/blog" },
-  { label: "Testimonials", href: "/testimonials" },
+  { label: "Online", href: "/online-astrology-consultation" },
+  { label: "Prayagraj", href: "/astrologer-in-prayagraj" },
   { label: "Contact", href: "/contact" },
 ] as const;
 

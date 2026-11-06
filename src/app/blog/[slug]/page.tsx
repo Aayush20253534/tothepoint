@@ -1,4 +1,5 @@
-import { canonicalPath, getSiteOrigin, breadcrumbSchema, articleSchema } from "@/lib/seo";
+import { pageMetadata } from "@/lib/metadata";
+import { getSiteOrigin, breadcrumbSchema, articleSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/json-ld";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -22,18 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = getBlogPost(slug);
   if (!post) return { title: "Article Not Found", robots: { index: false } };
-  return {
-    alternates: { canonical: canonicalPath(`/blog/${post.slug}`) },
-    title: post.title,
-    description: post.excerpt,
-    keywords: [...post.keywords],
-    openGraph: {
-      title: `${post.title} | Tothepoint Astrology`,
-      description: post.excerpt,
-      type: "article",
-    },
-    twitter: { card: "summary_large_image", title: post.title, description: post.excerpt },
-  };
+  return pageMetadata(`/blog/${post.slug}`, post.title, post.excerpt, "article");
 }
 
 export default async function ArticlePage({ params }: Props) {
@@ -67,7 +57,7 @@ export default async function ArticlePage({ params }: Props) {
               <Icon name="star" size={16}/>
               <span>{post.readingMinutes} min read</span>
               <span aria-hidden="true">·</span>
-              <span>Tothepoint Astrology guide</span>
+              <Link href="/about" className="underline underline-offset-4">SmartJyotishi editorial guide</Link>
             </div>
           </div>
           <div className="page-hero-article-art mx-auto mt-7 max-w-5xl overflow-hidden rounded-2xl border border-gold/35">
@@ -90,8 +80,9 @@ export default async function ArticlePage({ params }: Props) {
               <p className="eyebrow">Personal questions?</p>
               <h2 className="mt-3 font-display text-2xl text-cream sm:text-3xl">Discuss the Topic in a Consultation</h2>
               <p className="mt-3 text-sm leading-7 text-muted">
-                Message Tothepoint Astrology on WhatsApp to ask about the consultation scope, fees and available times.
+                Message SmartJyotishi on WhatsApp to ask about the consultation scope, fees and available times.
               </p>
+              <div className="mt-4 flex flex-wrap gap-x-5 gap-y-3 text-sm text-gold-light"><Link href="/astrologer-in-prayagraj" className="underline">Prayagraj consultations</Link><Link href="/online-astrology-consultation" className="underline">Online consultations worldwide</Link></div>
               <div className="mt-6">
                 <WhatsAppBookingLink>Book Consultation</WhatsAppBookingLink>
               </div>

@@ -7,9 +7,9 @@ import {
 
 const read = (path) => readFileSync(new URL("../" + path, import.meta.url), "utf8");
 
-test("the blog contains six complete unique educational guides", () => {
-  assert.equal(blogPosts.length, 6);
-  assert.equal(new Set(blogPosts.map((post) => post.slug)).size, 6);
+test("the blog contains complete unique educational guides", () => {
+  assert.equal(blogPosts.length, 8);
+  assert.equal(new Set(blogPosts.map((post) => post.slug)).size, blogPosts.length);
   assert.equal(blogCategories.length, 7);
   assert.deepEqual(
     new Set(blogPosts.map((post) => post.category)),
@@ -32,6 +32,7 @@ test("search matches title, excerpt and keywords without case sensitivity", () =
   assert.equal(filterBlogPosts("", "all").length, blogPosts.length);
   assert.deepEqual(filterBlogPosts("KuNdLi", "all").map((post) => post.slug), [
     "understanding-kundli-basics", "relationship-compatibility-in-vedic-astrology",
+    "preparing-for-an-astrology-consultation", "online-astrology-abroad-time-zones",
   ]);
   assert.deepEqual(filterBlogPosts("work", "career").map((post) => post.category), ["career"]);
   assert.deepEqual(filterBlogPosts("anything", "muhurat"), []);
@@ -80,7 +81,7 @@ test("article pages are statically generated and have individualized SEO", () =>
   assert.match(page, /post.sections.map/);
   assert.match(page, /getRelatedBlogPosts\(post\)/);
   assert.match(page, /WhatsAppBookingLink/);
-  assert.match(page, /type: "article"/);
+  assert.match(page, /post.excerpt, "article"/);
 });
 
 test("all posts are statically mapped to local MDX files only", () => {

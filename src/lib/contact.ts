@@ -74,7 +74,7 @@ export function prepareContactEmail(data: ContactSubmission): {
     subject: `Website enquiry: ${data.subject}`,
     replyTo: data.email,
     text: [
-      "Tothepoint Astrology – Website contact enquiry", "",
+      "SmartJyotishi – Website contact enquiry", "",
       `Name: ${data.name}`,
       `Reply email: ${data.email}`,
       `Topic: ${serviceName}`,

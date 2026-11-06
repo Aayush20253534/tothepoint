@@ -1,5 +1,6 @@
 /* Reference-inspired home-only presentation. Existing route styles stay unchanged. */
 .home-paper { background: #f7efe3; color: #0c2037; }
+.home-paper .eyebrow { color: #81521b; }
 .home-night { background: #04101f; }
 .home-reason-card { background: linear-gradient(150deg,#fffaf2,#f8f0e5); box-shadow: 0 7px 24px rgba(75,48,17,.085); }
 .home-kicker { color:#e6b76d; font-size:.71rem; font-weight:700; text-transform:uppercase; letter-spacing:.24em; }

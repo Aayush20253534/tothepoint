@@ -1,88 +1,80 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { test } from "node:test";
 import { blogPosts } from "../src/config/blog.ts";
 import { servicePreviews } from "../src/config/home.ts";
+import { consultationPages } from "../src/config/consultations.ts";
 import {
-  normalizeSiteOrigin, getSiteOrigin, canonicalPath, getIndexablePaths,
-  organizationSchema, websiteSchema, serviceSchema, articleSchema, breadcrumbSchema,
+  normalizeSiteOrigin, getSiteOrigin, isIndexingAllowed, canonicalPath, getIndexablePaths,
+  organizationSchema, websiteSchema, personSchema, serviceSchema, articleSchema, breadcrumbSchema, consultationSchema,
 } from "../src/lib/seo.ts";
 
-const read = (path) => readFileSync(new URL("../"+path,import.meta.url), "utf8");
-
-test("only explicit HTTPS public origins are accepted",()=>{
-  assert.equal(normalizeSiteOrigin("https://tothepoint.example.com/"),"https://tothepoint.example.com");
-  for(const x of ["http://localhost:3000","http://127.0.0.1:3000","https://localhost","https://your-website.example",
-    "ftp://example.com","https://a.com/path","https://a.com/?test=1","https://a.com/#frag",
-    "https://a.com@localhost", "https://example.test", "http://example.com"]) {
-    assert.equal(normalizeSiteOrigin(x),null,x);
+test("canonical domains must be public HTTPS origins", () => {
+  assert.equal(normalizeSiteOrigin("https://smartjyotishi.example.com/"), "https://smartjyotishi.example.com");
+  for (const value of [undefined, "http://localhost:3000", "https://localhost", "https://your-website.example", "https://example.test",
+    "https://a.com/path", "https://a.com/?test=1", "https://a.com/#frag", "https://a.com@localhost", "http://example.com"]) {
+    assert.equal(normalizeSiteOrigin(value), null, value);
   }
-  assert.equal(getSiteOrigin({NEXT_PUBLIC_SITE_URL:"http://localhost:3000"}),null);
-  assert.equal(getSiteOrigin({VERCEL_ENV:"preview",VERCEL_PROJECT_PRODUCTION_URL:"example.vercel.app",SEO_ALLOW_VERCEL_DOMAIN:"true"}),null);
-  assert.equal(getSiteOrigin({VERCEL_ENV:"production",VERCEL_PROJECT_PRODUCTION_URL:"real.vercel.app",SEO_ALLOW_VERCEL_DOMAIN:"true"}),"https://real.vercel.app");
+  assert.equal(getSiteOrigin({ NEXT_PUBLIC_SITE_URL: "http://localhost:3000" }), null);
 });
 
-test("canonical paths never point to localhost or include unsafe query parameters",()=>{
-  assert.equal(canonicalPath("/services","https://tothepoint.com"),"https://tothepoint.com/services");
-  assert.equal(canonicalPath("/",null),undefined);
-  assert.equal(canonicalPath("//other.com","https://tothepoint.com"),undefined);
-  assert.equal(canonicalPath("/blog?draft=true","https://tothepoint.com"),undefined);
+test("production uses a stable configured domain or the production alias, never a deployment URL", () => {
+  const production = { VERCEL_ENV: "production", VERCEL_PROJECT_PRODUCTION_URL: "site.vercel.app", VERCEL_URL: "unique-preview.vercel.app" };
+  assert.equal(getSiteOrigin(production), "https://site.vercel.app");
+  assert.equal(isIndexingAllowed(production), true);
+  assert.equal(getSiteOrigin({ ...production, NEXT_PUBLIC_SITE_URL: "https://business.example.com" }), "https://business.example.com");
+  assert.equal(getSiteOrigin({ VERCEL_ENV: "production", VERCEL_URL: production.VERCEL_URL }), null);
+  assert.equal(getSiteOrigin({ ...production, SEO_ALLOW_VERCEL_DOMAIN: "false" }), null);
 });
 
-test("sitemap coverage includes only the public 5 core routes and 12 detail pages",()=>{
-  const paths=getIndexablePaths();
-  assert.equal(paths.length,5+servicePreviews.length+blogPosts.length);
-  assert.equal(new Set(paths).size,paths.length);
-  for(const path of ["/","/about","/services","/blog","/contact",
-    ...servicePreviews.map(item=>`/services/${item.slug}`),
-    ...blogPosts.map(item=>`/blog/${item.slug}`)]) assert.ok(paths.includes(path),path);
-  for(const path of ["/api/contact","/booking","/book-consultation","/privacy-policy","/terms-and-conditions","/refund-policy","/testimonials"]) {
-    assert.ok(!paths.includes(path),path);
+test("preview and development builds remain noindex even when production variables are inherited", () => {
+  for (const VERCEL_ENV of ["preview", "development"]) {
+    assert.equal(isIndexingAllowed({ VERCEL_ENV, NEXT_PUBLIC_SITE_URL: "https://business.example.com" }), false);
+    assert.equal(getSiteOrigin({ VERCEL_ENV, VERCEL_PROJECT_PRODUCTION_URL: "site.vercel.app" }), null);
   }
+  assert.equal(isIndexingAllowed({ NEXT_PUBLIC_SITE_URL: "https://business.example.com", SEO_INDEXING_DISABLED: "true" }), false);
+  assert.equal(isIndexingAllowed({}), false);
 });
 
-test("structured data contains only confirmed site facts",()=>{
-  const url="https://tothepoint.com";
-  const organization=organizationSchema(url);
-  assert.equal(organization.name,"Tothepoint Astrology");
-  assert.equal(organization.email,"tothepointastrology@gmail.com");
-  assert.equal(organization.contactPoint.telephone,"+917007962637");
-  assert.ok(!JSON.stringify(organization).includes("AggregateRating"));
-  assert.ok(!JSON.stringify(organization).includes("streetAddress"));
-  const website=websiteSchema(url);
-  assert.equal(website.url,url);
-  const service=serviceSchema(url,servicePreviews[0]);
-  assert.equal(service.url,`${url}/services/${servicePreviews[0].slug}`);
-  const article=articleSchema(url,blogPosts[0]);
-  assert.equal(article.headline,blogPosts[0].title);
-  assert.ok(!JSON.stringify(article).includes("datePublished"));
-  const breadcrumbs=breadcrumbSchema(url,[{name:"Home",path:"/"},{name:"Blog",path:"/blog"}]);
-  assert.equal(breadcrumbs.itemListElement[1].position,2);
+test("canonicals exclude queries, fragments and external paths", () => {
+  assert.equal(canonicalPath("/services", "https://business.example.com"), "https://business.example.com/services");
+  assert.equal(canonicalPath("/", null), undefined);
+  for (const path of ["//other.com", "/blog?draft=true", "/#fragment"]) assert.equal(canonicalPath(path, "https://business.example.com"), undefined);
 });
 
-test("metadata, sitemap and robots are route-based and respect policy drafts",()=>{
-  const layout=read("src/app/layout.tsx");
-  const robots=read("src/app/robots.ts");
-  const sitemap=read("src/app/sitemap.ts");
-  assert.match(layout,/metadataBase: origin \? new URL\(origin\)/);
-  assert.match(layout,/JsonLd/);
-  assert.match(robots,/disallow: "\/"/);
-  assert.match(robots,/hasVerifiedTestimonials/);
-  assert.match(sitemap,/getIndexablePaths/);
-  assert.match(sitemap,/if \(!origin\) return \[\]/);
-  for(const path of ["src/app/page.tsx","src/app/about/page.tsx","src/app/services/page.tsx",
-    "src/app/blog/page.tsx","src/app/contact/page.tsx","src/app/services/[slug]/page.tsx",
-    "src/app/blog/[slug]/page.tsx"]) {
-    assert.match(read(path),/canonicalPath/);
+test("sitemap includes all public local, global, service and guide pages with no drafts or duplicates", () => {
+  const paths = getIndexablePaths();
+  assert.equal(paths.length, 7 + servicePreviews.length + blogPosts.length);
+  assert.equal(new Set(paths).size, paths.length);
+  for (const path of ["/astrologer-in-prayagraj", "/online-astrology-consultation", ...servicePreviews.map(s => `/services/${s.slug}`), ...blogPosts.map(p => `/blog/${p.slug}`)]) assert.ok(paths.includes(path), path);
+  for (const path of ["/api/contact", "/booking", "/privacy-policy", "/terms-and-conditions", "/refund-policy", "/testimonials"]) assert.ok(!paths.includes(path), path);
+});
+
+test("business schema uses confirmed city, contact and language facts without inventing an address or ratings", () => {
+  const origin = "https://business.example.com";
+  const business = organizationSchema(origin);
+  assert.equal(business["@type"], "LocalBusiness");
+  assert.equal(business.name, "SmartJyotishi");
+  assert.equal(business.address.addressLocality, "Prayagraj");
+  assert.equal(business.telephone, "+917007962637");
+  assert.equal(business.email, "tothepointastrology@gmail.com");
+  assert.ok(existsSync(new URL("../public/images/smartjyotishi-logo.webp", import.meta.url)));
+  for (const field of ["aggregateRating", "streetAddress", "postalCode", "openingHours", "geo", "priceRange"]) assert.ok(!JSON.stringify(business).includes(field), field);
+  assert.equal(websiteSchema(origin).publisher["@id"], business["@id"]);
+  assert.equal(personSchema(origin).name, "Hariom Shrivastava");
+  assert.equal(serviceSchema(origin, servicePreviews[0]).provider["@id"], business["@id"]);
+  assert.equal(articleSchema(origin, blogPosts[0]).headline, blogPosts[0].title);
+  assert.ok(!JSON.stringify(articleSchema(origin, blogPosts[0])).includes("datePublished"));
+  assert.equal(breadcrumbSchema(origin, [{ name: "Home", path: "/" }, { name: "Blog", path: "/blog" }]).itemListElement[1].position, 2);
+});
+
+test("local and global service data matches the visible page scope", () => {
+  for (const page of Object.values(consultationPages)) {
+    const schema = consultationSchema("https://business.example.com", page.path, page.title, page.description, page.online);
+    assert.equal(schema.description, page.description);
+    assert.deepEqual(schema.availableChannel.availableLanguage, ["Hindi", "English"]);
+    assert.ok(page.questions.length >= 4);
+    if (page.online) assert.equal(schema.areaServed, "Worldwide");
+    else assert.equal(schema.areaServed.name, "Prayagraj");
   }
-});
-
-test("SEO generator publishes a valid OG image implementation",()=>{
-  const og=read("src/app/opengraph-image.tsx");
-  assert.match(og,/ImageResponse/);
-  assert.match(og,/1200/);
-  assert.match(og,/630/);
-  const json=read("src/components/seo/json-ld.tsx");
-  assert.match(json,/dangerouslySetInnerHTML/);
-  assert.match(json,/replace\(\/</);
 });

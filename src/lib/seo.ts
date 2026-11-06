@@ -28,12 +28,17 @@ export function normalizeSiteOrigin(value: string | undefined): string | null {
 export function getSiteOrigin(env: Record<string, string | undefined> = process.env): string | null {
   const custom = normalizeSiteOrigin(env.NEXT_PUBLIC_SITE_URL);
   if (custom) return custom;
-  // Production Vercel URL is acceptable as a temporary domain only if explicitly opted in.
-  // Preview aliases are never used as canonical or sitemap hosts.
-  if (env.VERCEL_ENV === "production" && env.SEO_ALLOW_VERCEL_DOMAIN === "true") {
+  // The owner's SEO launch authorizes indexing the current production domain.
+  // Vercel provides a stable production alias; never use VERCEL_URL (a build URL).
+  if (env.VERCEL_ENV === "production" && env.SEO_ALLOW_VERCEL_DOMAIN !== "false") {
     return normalizeSiteOrigin(env.VERCEL_PROJECT_PRODUCTION_URL && `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`);
   }
   return null;
+}
+
+export function isIndexingAllowed(env: Record<string, string | undefined> = process.env): boolean {
+  return env.VERCEL_ENV !== "preview" && env.VERCEL_ENV !== "development"
+    && env.SEO_INDEXING_DISABLED !== "true" && !!getSiteOrigin(env);
 }
 
 export function canonicalPath(path: string, origin = getSiteOrigin()): string | undefined {
@@ -41,7 +46,8 @@ export function canonicalPath(path: string, origin = getSiteOrigin()): string | 
   return `${origin}${path}`;
 }
 
-export const corePublicPaths = ["/", "/about", "/services", "/blog", "/contact"] as const;
+export const corePublicPaths = ["/", "/about", "/services", "/blog", "/contact",
+  "/astrologer-in-prayagraj", "/online-astrology-consultation"] as const;
 
 export function hasVerifiedTestimonials() {
   return approvedReviews.some((review) => review.approved && review.consentToPublish)
@@ -60,17 +66,41 @@ export function getIndexablePaths(): string[] {
 export function organizationSchema(origin: string) {
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "LocalBusiness",
     "@id": `${origin}/#organization`,
     name: siteConfig.name,
     url: origin,
     email: siteConfig.contactEmail,
+    telephone: `+${siteConfig.whatsappNumber}`,
+    description: "Astrology consultations with Hariom Shrivastava in Prayagraj and online worldwide, in Hindi and English.",
+    logo: `${origin}/images/smartjyotishi-logo.webp`,
+    image: `${origin}/images/smartjyotishi-logo.webp`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: siteConfig.location.city,
+      addressRegion: siteConfig.location.region,
+      addressCountry: siteConfig.location.country,
+    },
+    areaServed: [{ "@type": "City", name: "Prayagraj", alternateName: "Allahabad" }, "Worldwide (online)"],
     contactPoint: {
       "@type": "ContactPoint",
       telephone: `+${siteConfig.whatsappNumber}`,
       contactType: "customer service",
       availableLanguage: ["en", "hi"],
     },
+  };
+}
+
+export function personSchema(origin: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${origin}/#astrologer`,
+    name: siteConfig.astrologer,
+    url: `${origin}/about`,
+    jobTitle: "Astrologer",
+    knowsLanguage: [...siteConfig.languages],
+    worksFor: { "@id": `${origin}/#organization` },
   };
 }
 
@@ -96,6 +126,12 @@ export function serviceSchema(origin: string, service: (typeof servicePreviews)[
     url: `${origin}/services/${service.slug}`,
     provider: { "@id": `${origin}/#organization` },
     serviceType: "Astrology consultation",
+    areaServed: ["Prayagraj", "Worldwide (online)"],
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: `${origin}/contact`,
+      availableLanguage: [...siteConfig.languages],
+    },
   };
 }
 
@@ -109,7 +145,24 @@ export function articleSchema(origin: string, post: (typeof blogPosts)[number]) 
     mainEntityOfPage: `${origin}/blog/${post.slug}`,
     author: { "@id": `${origin}/#organization` },
     publisher: { "@id": `${origin}/#organization` },
+    image: `${origin}/opengraph-image`,
+    articleSection: post.category,
     inLanguage: "en",
+  };
+}
+
+export function consultationSchema(origin: string, path: string, title: string, description: string, online: boolean) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${origin}${path}#service`,
+    name: title,
+    description,
+    url: `${origin}${path}`,
+    serviceType: "Astrology consultation",
+    provider: { "@id": `${origin}/#organization` },
+    areaServed: online ? "Worldwide" : { "@type": "City", name: "Prayagraj", alternateName: "Allahabad" },
+    availableChannel: { "@type": "ServiceChannel", serviceUrl: `${origin}/contact`, availableLanguage: [...siteConfig.languages] },
   };
 }
 
