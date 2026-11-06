@@ -8,7 +8,9 @@ export function pageMetadata(path: string, title: string, description: string, t
   const image = canonicalPath("/opengraph-image");
   const images = image ? [{ url: image, width: 1200, height: 630, alt: `${siteConfig.name} — Prayagraj & online astrology consultations` }] : undefined;
   return {
-    title,
+    // An absolute title also brands the root page, where the layout template
+    // does not apply, without doubling the brand on nested routes.
+    title: { absolute: `${title} | ${siteConfig.name}` },
     description,
     alternates: { canonical: url },
     openGraph: {

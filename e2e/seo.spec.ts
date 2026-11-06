@@ -25,7 +25,8 @@ test("every public route renders unique metadata, linked data and a self canonic
       expect(url.protocol).toBe("https:");
       expect(url.pathname).toBe(path);
       expect(url.search).toBe("");
-      await expect(page.locator('meta[property="og:url"]')).toHaveAttribute("content", url.href);
+      const socialUrl = await page.locator('meta[property="og:url"]').getAttribute("content");
+      expect(new URL(socialUrl!).href).toBe(url.href);
       await expect(page.locator('meta[name="robots"]')).not.toHaveAttribute("content", /noindex/);
       await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
       await expect(page.locator('meta[property="og:image"]').first()).toHaveAttribute("content", /^https:\/\//);

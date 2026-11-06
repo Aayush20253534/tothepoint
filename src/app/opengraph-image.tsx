@@ -30,7 +30,11 @@ export default function OpenGraphImage() {
         display: "flex", width: 230, height: 230, alignItems: "center", justifyContent: "center",
         border: "7px solid #e8b664", borderRadius: 125, color: "#f8d99d", fontSize: 87,
         fontWeight: 700, boxShadow: "0 0 0 20px rgba(232,182,100,.07)",
-      }}>✦</div>
+      }}>
+        <svg width="110" height="110" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M50 0 L63 37 L100 50 L63 63 L50 100 L37 63 L0 50 L37 37 Z" fill="#f8d99d" />
+        </svg>
+      </div>
     </div>,
     { ...size },
   );

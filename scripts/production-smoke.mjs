@@ -51,7 +51,7 @@ for(const path of routes) {
   const draft = ["/testimonials", "/privacy-policy", "/terms-and-conditions", "/refund-policy"].includes(path);
   if (!draft) {
     const canonical = html.match(/<link[^>]*rel="canonical"[^>]*href="([^"]+)"/i)?.[1];
-    if (canonical !== origin + path) failures.push(`${path}: wrong or missing production canonical: ${canonical}`);
+    if (!canonical || new URL(canonical).href !== new URL(origin + path).href) failures.push(`${path}: wrong or missing production canonical: ${canonical}`);
     if (/<meta[^>]*name="robots"[^>]*content="[^"]*noindex/i.test(html)) failures.push(`${path}: public page is noindex`);
     if (!html.includes('application/ld+json')) failures.push(`${path}: missing structured data`);
   }
